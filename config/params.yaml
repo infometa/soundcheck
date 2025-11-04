@@ -1,9 +1,12 @@
 
 fs: 48000
 sweep_duration: 8
+sweep_freq_min: 20.0
+sweep_freq_max: 20000.0
 silence_pre: 1.0
 silence_post: 1.0
 record_tail: 3.0
 min_peak_db: -25
 min_peak_distance_ms: 1.5
 min_energy: 1e-9
+early_reflection_time: 0.08
