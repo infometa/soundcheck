@@ -17,18 +17,19 @@ ENV/
 *.swo
 
 # Data files (generated during measurement)
-data/raw/*.wav
-data/raw/*.npy
-data/processed/*.wav
-data/plots/*.png
-data/reports/*.pdf
-data/separated/**/*.wav
+data/
 
-# Keep directory structure
+# Keep directory structure but ignore all contents
+!data/.gitkeep
+!data/raw/
 !data/raw/.gitkeep
+!data/processed/
 !data/processed/.gitkeep
+!data/plots/
 !data/plots/.gitkeep
+!data/reports/
 !data/reports/.gitkeep
+!data/separated/
 !data/separated/.gitkeep
 
 # OS
