@@ -16,6 +16,7 @@ from core.sync import sync_and_trim
 from core.ir import extract_ir
 from core.metrics import RT60, C50
 from core.reflections import reflections
+from core.separate import separate_ir_components, export_ir_comparison
 from utils.plot import plot_ir
 from utils.config import load_config
 
@@ -138,6 +139,35 @@ def test_plotting():
     assert os.path.exists("data/plots/test_ir.png"), "图表文件未生成"
     print(f"✅ 图表生成成功")
     print(f"   保存位置: data/plots/test_ir.png")
+    return ir
+
+def test_ir_separation():
+    """测试IR分离功能"""
+    print("\n=== 测试8: IR分离功能 ===")
+    ir = test_plotting()
+
+    # Test separate_ir_components
+    paths = separate_ir_components(ir, output_dir="data/separated/test")
+
+    # Check if files were created
+    assert os.path.exists(paths['direct']), "直达声文件未生成"
+    assert os.path.exists(paths['early']), "早反射文件未生成"
+    assert os.path.exists(paths['late']), "混响尾声文件未生成"
+
+    # Check file sizes (should not be empty)
+    for name, path in paths.items():
+        size = os.path.getsize(path)
+        assert size > 0, f"{name} 文件为空"
+
+    # Test export_ir_comparison
+    comparison_path = export_ir_comparison(ir, output_path="data/separated/test/comparison.wav")
+    assert os.path.exists(comparison_path), "对比文件未生成"
+
+    print(f"✅ IR分离成功")
+    print(f"   直达声: {paths['direct']}")
+    print(f"   早反射: {paths['early']}")
+    print(f"   混响尾声: {paths['late']}")
+    print(f"   对比文件: {comparison_path}")
 
 def run_all_tests():
     """运行所有测试"""
@@ -150,7 +180,7 @@ def run_all_tests():
         test_sweep_generation()
         ir = test_ir_extraction()
         test_metrics()
-        test_plotting()
+        test_ir_separation()
 
         print("\n" + "=" * 60)
         print("✅ 所有测试通过！")
@@ -164,6 +194,9 @@ def run_all_tests():
         print("  ✅ 增强绘图功能（IR + ETC曲线）")
         print("  ✅ 添加进度信息和文档字符串")
         print("\n新功能:")
+        print("  ✅ 改进的设备选择（分别显示麦克风和扬声器）")
+        print("  ✅ IR分离导出（直达声/早反射/混响尾声单独wav）")
+        print("  ✅ 多通道对比文件（便于DAW对比）")
         print("  ✅ ETC（能量时间曲线）可视化")
         print("  ✅ 直达声（红）/ 早反射（蓝）/ 混响尾声（灰）标记")
         print("  ✅ 改进的错误处理和用户反馈")

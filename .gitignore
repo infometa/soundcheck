@@ -22,12 +22,14 @@ data/raw/*.npy
 data/processed/*.wav
 data/plots/*.png
 data/reports/*.pdf
+data/separated/**/*.wav
 
 # Keep directory structure
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/plots/.gitkeep
 !data/reports/.gitkeep
+!data/separated/.gitkeep
 
 # OS
 .DS_Store
